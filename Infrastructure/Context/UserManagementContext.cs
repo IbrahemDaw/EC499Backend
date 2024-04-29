@@ -1,9 +1,4 @@
-﻿// Ignore Spelling: Mataa
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-
-namespace Infrastructure;
-
+﻿namespace Infrastructure;
 public class UserManagementContext(DbContextOptions<UserManagementContext> options) : DbContext(options)
 {
 
