@@ -6,3 +6,4 @@ global using OneOf;
 global using Infrastructure;
 global using Infrastructure.Entities;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Mvc;
