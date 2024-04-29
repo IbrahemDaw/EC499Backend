@@ -1,6 +1,4 @@
-﻿
-
-Log.Logger = new LoggerConfiguration()
+﻿Log.Logger = new LoggerConfiguration()
                   .WriteTo.Console()
                   .CreateLogger();
 Log.Information("Starting web application");
