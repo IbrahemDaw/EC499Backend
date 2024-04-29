@@ -1,0 +1,15 @@
+Auth/bin/
+Auth/obj/
+DocumentManagement/bin/
+DocumentManagement/obj/
+Ec499.DMS/
+Gateway/bin/
+Gateway/obj/
+Infrastructure/bin/
+Infrastructure/obj/
+ManagementApi/bin/
+ManagementApi/obj/
+ServiceDefaults/bin/
+ServiceDefaults/obj/
+Shared/bin/
+Shared/obj/
