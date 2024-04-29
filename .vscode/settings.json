@@ -24,6 +24,8 @@
       "**/ManagementApi/ManagementApi.sln": true,
       "**/obj": true,
       "**/Shared/bin" :true,
+      "**DocumentManagement/obj": true,
+      "**DocumentManagement/bin": true,
 
     },
     "omnisharp.organizeImportsOnFormat": true,
