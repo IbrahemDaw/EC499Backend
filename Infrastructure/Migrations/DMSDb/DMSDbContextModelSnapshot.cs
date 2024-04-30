@@ -90,6 +90,9 @@ namespace Infrastructure.Migrations.DMSDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("DocumentExtension")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
