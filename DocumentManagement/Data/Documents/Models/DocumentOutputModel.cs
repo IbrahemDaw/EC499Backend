@@ -11,8 +11,8 @@ public class DocumentOutputModelSimple
 public class DocumentOutputModel : DocumentOutputModelSimple
 {
     public string Previwe { get; set; } = null!;
-    public List<CategoryOutputModelSimple> Categories { get; set; } = [];
-    public List<TagOutputModel> Tags { get; set; } = [];
+    public List<int> Categories { get; set; } = [];
+    public List<int> Tags { get; set; } = [];
 }
 public class DocumentFileOutputModel
 {

@@ -51,7 +51,15 @@ public class DocumentRepo(DMSDbContext _db) : IDocumentRepo
         return await _db.Documents.Where(x => x.Id == Id)
             .Include(x => x.Tags)
             .Include(x => x.Categories)
-            .MapTo<DocumentOutputModel>()
+            .Select(x=> new DocumentOutputModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description,
+                Categories = x.Categories.Select(c => c.Id).ToList(),
+                Tags = x.Tags.Select(t => t.Id).ToList(),
+                Previwe = x.Path
+            })
             .SingleOrDefaultAsync();
     }
 
