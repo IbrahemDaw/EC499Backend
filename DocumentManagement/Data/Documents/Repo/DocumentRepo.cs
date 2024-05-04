@@ -78,7 +78,8 @@ public class DocumentRepo(DMSDbContext _db) : IDocumentRepo
             Title = model.Title,
             Description = model.Description,
             Categories = await _db.Categories.Where(c => model.Categories.Contains(c.Id)).ToListAsync(),
-            Tags = await _db.Tags.Where(t => model.Tags.Contains(t.Id)).ToListAsync()
+            Tags = await _db.Tags.Where(t => model.Tags.Contains(t.Id)).ToListAsync(),
+            Path = "testPath"
         };
 
         await _db.Documents.AddAsync(document);

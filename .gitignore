@@ -13,3 +13,4 @@ ServiceDefaults/bin/
 ServiceDefaults/obj/
 Shared/bin/
 Shared/obj/
+ManagementApi/Logs/
