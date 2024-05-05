@@ -11,9 +11,13 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
         var user = model.MapTo<User>();
         user.PasswordHash = model.Password.HashPass();
+        if (model.Roles.Count != 0)
+        {
+            user.Roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
+                        .ToListAsync();
+        }
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
-
         return user.MapTo<UserOutputModelSimple>();
     }
 
@@ -62,7 +66,7 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
     public async Task EnableUsersAsync(int[] ids)
     {
-        var users = await _db.Users.Where(x =>!x.IsDeleted && ids.Contains(x.Id))
+        var users = await _db.Users.Where(x => !x.IsDeleted && ids.Contains(x.Id))
                 .ToListAsync();
         if (users == null)
             return;
@@ -147,7 +151,7 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
     public async Task<OneOf<UserOutputModelSimple, ErrorResponse>> UpdateAsync(UserUpdateModel model)
     {
-        var user = await _db.Users.Include(x=>x.Roles).SingleOrDefaultAsync(x => !x.IsDeleted && x.Id == model.Id);
+        var user = await _db.Users.Include(x => x.Roles).SingleOrDefaultAsync(x => !x.IsDeleted && x.Id == model.Id);
 
         if (user == null)
             return new ErrorResponse { ErrorCode = 5, Message = "user was not found" };
