@@ -5,6 +5,7 @@ public class UserUpdateModel
     public string? FullName { get; set; }
     public string? UserName { get; set; }
     public string? PhoneNumber { get; set; }
+    public bool IsEnabled { get; set; }
     public List<int> RoleIds { get; set; } = [];
 }
 public class UserUpdateModelValidator : AbstractValidator<UserUpdateModel>

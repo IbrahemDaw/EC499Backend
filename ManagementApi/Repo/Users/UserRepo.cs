@@ -147,14 +147,15 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
     public async Task<OneOf<UserOutputModelSimple, ErrorResponse>> UpdateAsync(UserUpdateModel model)
     {
-        var user = await _db.Users.SingleOrDefaultAsync(x => !x.IsDeleted && x.Id == model.Id);
+        var user = await _db.Users.Include(x=>x.Roles).SingleOrDefaultAsync(x => !x.IsDeleted && x.Id == model.Id);
 
         if (user == null)
             return new ErrorResponse { ErrorCode = 5, Message = "user was not found" };
-
-        user.UserName = string.IsNullOrWhiteSpace(model.UserName) ? user.UserName : model.UserName;
+        user.Roles = await _db.Roles.Where(x => model.RoleIds.Contains(x.Id))
+            .ToListAsync();
         user.FullName = string.IsNullOrWhiteSpace(model.FullName) ? user.FullName : model.FullName;
         user.PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber) ? user.PhoneNumber : model.PhoneNumber;
+        user.IsEnabled = model.IsEnabled;
         await _db.SaveChangesAsync();
 
         return user.MapTo<UserOutputModelSimple>();
