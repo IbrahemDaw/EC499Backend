@@ -11,7 +11,7 @@ public class Permission : BaseEntity
 }
 public enum Feature
 {
-    User, Role, Tag, Document, Category
+    User, Role, Tag, Document, Category, GradustionProject
 }
 
 internal class PermissionConfiguration : IEntityTypeConfiguration<Permission>

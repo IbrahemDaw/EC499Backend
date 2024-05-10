@@ -31,6 +31,11 @@ public static class PermissionSeed
             new Permission {Id = Permissions.CategoryWrite, IsEnabled = true, Name = "Update ", Feature = Feature.Category},
             new Permission {Id = Permissions.CategoryCreate, IsEnabled = true, Name = "Create ", Feature = Feature.Category},
             new Permission {Id = Permissions.CategoryDelete, IsEnabled = true, Name = "Delete ", Feature = Feature.Category},
+
+            new Permission {Id = Permissions.GradustionProjectRead, IsEnabled = true, Name = "Read ", Feature = Feature.GradustionProject},
+            new Permission {Id = Permissions.GradustionProjectWrite, IsEnabled = true, Name = "Update ", Feature = Feature.GradustionProject},
+            new Permission {Id = Permissions.GradustionProjectCreate, IsEnabled = true, Name = "Create ", Feature = Feature.GradustionProject},
+            new Permission {Id = Permissions.GradustionProjectDelete, IsEnabled = true, Name = "Delete ", Feature = Feature.GradustionProject},
         };
 
     }

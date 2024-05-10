@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(UserManagementContext))]
-    partial class UserManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240510203817_AddedSelfRole")]
+    partial class AddedSelfRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,46 +251,6 @@ namespace Infrastructure.Migrations
                             IsEnabled = true,
                             Name = "Delete ",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 301,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Feature = 5,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            Name = "Read ",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 302,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Feature = 5,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            Name = "Update ",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 303,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Feature = 5,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            Name = "Create ",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 304,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Feature = 5,
-                            IsDeleted = false,
-                            IsEnabled = true,
-                            Name = "Delete ",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -325,12 +288,12 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 5, 10, 23, 42, 35, 259, DateTimeKind.Local).AddTicks(2365),
+                            CreatedAt = new DateTime(2024, 5, 10, 22, 38, 16, 605, DateTimeKind.Local).AddTicks(3248),
                             IsDeleted = false,
                             IsEnabled = true,
                             IsSelfRole = false,
                             Name = "مدير النضام",
-                            UpdatedAt = new DateTime(2024, 5, 10, 23, 42, 35, 259, DateTimeKind.Local).AddTicks(2378)
+                            UpdatedAt = new DateTime(2024, 5, 10, 22, 38, 16, 605, DateTimeKind.Local).AddTicks(3263)
                         });
                 });
 
@@ -387,7 +350,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 5, 10, 23, 42, 35, 259, DateTimeKind.Local).AddTicks(4026),
+                            CreatedAt = new DateTime(2024, 5, 10, 22, 38, 16, 605, DateTimeKind.Local).AddTicks(5686),
                             Email = "admin@email.com",
                             FullName = "Admin",
                             IsDeleted = false,
@@ -395,7 +358,7 @@ namespace Infrastructure.Migrations
                             PasswordHash = "AZICOnu9cyUFFvBp3xi1AA==",
                             PhoneNumber = "123",
                             RequirePasswordChange = true,
-                            UpdatedAt = new DateTime(2024, 5, 10, 23, 42, 35, 259, DateTimeKind.Local).AddTicks(4554),
+                            UpdatedAt = new DateTime(2024, 5, 10, 22, 38, 16, 605, DateTimeKind.Local).AddTicks(6571),
                             UserName = "admin123"
                         });
                 });

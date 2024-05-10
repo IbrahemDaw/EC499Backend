@@ -7,6 +7,7 @@ public class DMSDbContext : DbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<GradustionProject> GradustionProjects { get; set; }
 
     public DMSDbContext() : base() { }
     public DMSDbContext(DbContextOptions options) : base(options) { }
