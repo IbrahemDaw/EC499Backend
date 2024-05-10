@@ -20,6 +20,14 @@ public class FeatureWithPermissionOutputModel
 public class PermissionOutputModelSimple
 {
     public int Id { get; set; }
+    public string DisplayName
+    {
+        get
+        {
+            return $"{Name} {Feature}";
+        }
+        set { }
+    }
     public string Name { get; set; } = null!;
     public bool IsEnabled { get; set; }
     public string Feature { get; set; } = null!;

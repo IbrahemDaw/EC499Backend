@@ -78,7 +78,7 @@ public class RoleRepo(UserManagementContext mataaDbContext) : IRoleRepo
 
     public async Task<List<RoleOutputModelSimple>> GetAllAsync()
     {
-        return await _db.Roles.Where(x => !x.IsDeleted)
+        return await _db.Roles.Where(x => !x.IsDeleted && !x.IsSelfRole)
             .MapTo<RoleOutputModelSimple>()
             .ToListAsync();
     }
@@ -95,7 +95,7 @@ public class RoleRepo(UserManagementContext mataaDbContext) : IRoleRepo
              FeatureName = x.Key,
              Permissions = x
          }).ToList(); */
-        return role.MapTo<RoleOutputModelDetailed>();
+        return role;
 
     }
 

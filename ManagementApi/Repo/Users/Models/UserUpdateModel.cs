@@ -6,7 +6,7 @@ public class UserUpdateModel
     public string? UserName { get; set; }
     public string? PhoneNumber { get; set; }
     public bool IsEnabled { get; set; }
-    public List<int> RoleIds { get; set; } = [];
+    public List<int> Roles { get; set; } = [];
 }
 public class UserUpdateModelValidator : AbstractValidator<UserUpdateModel>
 {
@@ -30,9 +30,9 @@ public class UserUpdateModelValidator : AbstractValidator<UserUpdateModel>
             .MaximumLength(20)
             .When(x => x.PhoneNumber != null);
 
-        RuleFor(x => x.RoleIds)
+        RuleFor(x => x.Roles)
             .ForEach(branchId => branchId
                 .GreaterThan(0))
-            .When(x => x.RoleIds.Count != 0);
+            .When(x => x.Roles.Count != 0);
     }
 }

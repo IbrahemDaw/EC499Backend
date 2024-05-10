@@ -26,7 +26,7 @@ public static class UserSeed
                 RequirePasswordChange = true,
                 PasswordHash = HashPass("admin123"),
                 PhoneNumber = "123",
-                UpdatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
              }
         ];
     }

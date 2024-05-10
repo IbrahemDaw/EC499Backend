@@ -11,12 +11,10 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
         var user = model.MapTo<User>();
         user.PasswordHash = model.Password.HashPass();
-        if (model.Roles.Count != 0)
-        {
-            user.Roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
-                        .ToListAsync();
-        }
-        user.Roles.Add(new Role {Name = user.UserName,IsSelfRole = true} );
+        user.Roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
+                    .ToListAsync();
+        
+        user.Roles.Add(new Role { Name = user.UserName, IsSelfRole = true });
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
         return user.MapTo<UserOutputModelSimple>();
@@ -107,7 +105,17 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
         return await _db.Users
             .Where(x => !x.IsDeleted && x.Id == Id)
             .Include(x => x.Roles)
-            .MapTo<UserOutputModelDetailed>()
+            .Select(x => new UserOutputModelDetailed
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                UserName = x.UserName,
+                PhoneNumber = x.PhoneNumber,
+                Email = x.Email,
+                IsEnabled = x.IsEnabled,
+                RequirePasswordChange = x.RequirePasswordChange,
+                Roles = x.Roles.Where(x=>!x.IsSelfRole).Select(x => x.Id).ToList()
+            })
             .FirstOrDefaultAsync();
     }
 
@@ -158,8 +166,10 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
         if (user == null)
             return new ErrorResponse { ErrorCode = 5, Message = "user was not found" };
-        user.Roles = await _db.Roles.Where(x => model.RoleIds.Contains(x.Id))
+        var roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
             .ToListAsync();
+        roles.Add(user.Roles.Where(x=>x.IsSelfRole).FirstOrDefault() ?? new Role{Name = user.UserName, IsSelfRole = true});
+        user.Roles = roles;
         user.FullName = string.IsNullOrWhiteSpace(model.FullName) ? user.FullName : model.FullName;
         user.PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber) ? user.PhoneNumber : model.PhoneNumber;
         user.IsEnabled = model.IsEnabled;

@@ -12,7 +12,7 @@ public class UserOutputModelSimple
 }
 public class UserOutputModelDetailed : UserOutputModelSimple
 {
-    public List<RoleOutputModelSimple> Roles { get; set; } = [];
+    public List<int> Roles { get; set; } = [];
 
 }
 
