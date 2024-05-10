@@ -7,7 +7,8 @@ public class Role : BaseEntity
     public string Name { get; set; } = null!;
     public ICollection<Permission> Permissions { get; set; } = [];
     public ICollection<User> Users { get; set; } = [];
-    public bool IsEnabled { get; set; }
+    public bool IsSelfRole { get; set; } = false;
+    public bool IsEnabled { get; set; }=true;
 }
 
 internal class RoleConfiguration : IEntityTypeConfiguration<Role>

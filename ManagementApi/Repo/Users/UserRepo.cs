@@ -16,6 +16,7 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
             user.Roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
                         .ToListAsync();
         }
+        user.Roles.Add(new Role {Name = user.UserName,IsSelfRole = true} );
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
         return user.MapTo<UserOutputModelSimple>();
@@ -44,7 +45,8 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
     public async Task DeleteAsync(int[] Ids)
     {
-        var user = await _db.Users.Where(x => Ids.Contains(x.Id))
+        var user = await _db.Users
+            .Where(x => Ids.Contains(x.Id))
             .ToListAsync();
 
         if (user == null)
@@ -104,6 +106,7 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
     {
         return await _db.Users
             .Where(x => !x.IsDeleted && x.Id == Id)
+            .Include(x => x.Roles)
             .MapTo<UserOutputModelDetailed>()
             .FirstOrDefaultAsync();
     }
