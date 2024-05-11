@@ -7,3 +7,15 @@ public class Category : BaseEntity
     public ICollection<Document> Documents { get; set; } = [];
     public ICollection<Tag> Tags { get; set; } = [];
 }
+internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
+{
+    public void Configure(EntityTypeBuilder<Category> builder)
+    {
+        builder.Property(x => x.Name)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        builder.HasData(CategorySeed.GetCategorySeed());
+
+    }
+}

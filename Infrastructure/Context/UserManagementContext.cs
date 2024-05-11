@@ -4,7 +4,7 @@ public class UserManagementContext(DbContextOptions<UserManagementContext> optio
 
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<Role> Roles { get; set; }  
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -52,11 +52,11 @@ public class UserManagementContext(DbContextOptions<UserManagementContext> optio
                     entry.Entity.UpdatedAt = DateTime.Now;
                     break;
 
-                case EntityState.Deleted:
-                    entry.State = EntityState.Modified;
-                    entry.Entity.UpdatedAt = DateTime.Now;
-                    entry.Entity.IsDeleted = true;
-                    break;
+                    // case EntityState.Deleted:
+                    //     entry.State = EntityState.Modified;
+                    //     entry.Entity.UpdatedAt = DateTime.Now;
+                    //     entry.Entity.IsDeleted = true;
+                    //     break;
             }
         }
         return await base.SaveChangesAsync(cancellationToken);

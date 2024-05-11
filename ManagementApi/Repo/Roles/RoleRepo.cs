@@ -71,7 +71,7 @@ public class RoleRepo(UserManagementContext mataaDbContext) : IRoleRepo
     {
         return await _db.Roles.Where(role => (string.IsNullOrWhiteSpace(filter.Name) || role.Name.Contains(filter.Name))
                                          && (filter.IsEnabled == null || (bool)filter.IsEnabled == role.IsEnabled)
-                                         && !role.IsDeleted)
+                                         && !role.IsDeleted && !role.IsSelfRole)
             .MapTo<RoleOutputModelSimple>()
             .ToPaginationModelAsync(filter);
     }
