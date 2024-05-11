@@ -10,6 +10,8 @@ public class TagController : ControllerBase
     }
     // GET: api/<TagController>
     [HttpGet("{id}")]
+    [AuthorizedAction(Permissions.TagRead)]
+
     public async Task<IActionResult> Get(int id)
     {
         var res = await _tagRepo.FindById(id);
@@ -17,6 +19,7 @@ public class TagController : ControllerBase
     }
 
     [HttpGet]
+    [AuthorizedAction(Permissions.TagRead)]
     public async Task<IActionResult> Get()
     {
         var res = await _tagRepo.GetAll();
@@ -25,6 +28,7 @@ public class TagController : ControllerBase
 
     // POST api/<TagController>
     [HttpPost]
+    [AuthorizedAction(Permissions.TagCreate)]
     public async Task<IActionResult> Post([FromBody] TagInputModel value)
     {
         var res = await _tagRepo.PostAsync(value);
@@ -33,6 +37,7 @@ public class TagController : ControllerBase
 
     // PUT api/<TagController>/5
     [HttpPut]
+    [AuthorizedAction(Permissions.TagWrite)]
     public async Task<IActionResult> Put([FromBody] TagUpdateModel value)
     {
         var res = await _tagRepo.UpdateAsync(value);
@@ -41,24 +46,29 @@ public class TagController : ControllerBase
 
     // DELETE api/<TagController>/5
     [HttpDelete]
+    [AuthorizedAction(Permissions.TagDelete)]
     public async Task<IActionResult> Delete(int[] ids)
     {
         await _tagRepo.DeleteAsync(ids);
         return NoContent();
     }
     [HttpPut("Enable")]
+    [AuthorizedAction(Permissions.TagWrite)]
+
     public async Task<IActionResult> Enable(int[] ids)
     {
         await _tagRepo.EnableAsync(ids);
         return NoContent();
     }
     [HttpPut("Disable")]
+    [AuthorizedAction(Permissions.TagWrite)]
     public async Task<IActionResult> Disable(int[] ids)
     {
         await _tagRepo.DisableAsync(ids);
         return NoContent();
     }
     [HttpGet("filter")]
+    [AuthorizedAction(Permissions.TagRead)]
     public async Task<IActionResult> Filter([FromQuery] TagFilterModel filter)
     {
         var res = await _tagRepo.FilterAsync(filter);
