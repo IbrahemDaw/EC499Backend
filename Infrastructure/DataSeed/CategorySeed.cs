@@ -8,6 +8,7 @@ public static class CategorySeed
             new Category{
                 Id = 1,
                 Name = "Graduation Projects",
+                Description = "Graduation Projects",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             }

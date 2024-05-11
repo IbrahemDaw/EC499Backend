@@ -51,7 +51,7 @@ public class DMSDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        modelBuilder.ApplyConfiguration<Category>(new CategoryConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 

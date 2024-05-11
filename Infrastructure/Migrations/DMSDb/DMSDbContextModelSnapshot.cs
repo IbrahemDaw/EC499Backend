@@ -67,7 +67,8 @@ namespace Infrastructure.Migrations.DMSDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -75,6 +76,17 @@ namespace Infrastructure.Migrations.DMSDb
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 5, 11, 10, 12, 4, 684, DateTimeKind.Local).AddTicks(1566),
+                            Description = "Graduation Projects",
+                            IsDeleted = false,
+                            Name = "Graduation Projects",
+                            UpdatedAt = new DateTime(2024, 5, 11, 10, 12, 4, 684, DateTimeKind.Local).AddTicks(1576)
+                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Document", b =>
@@ -91,9 +103,6 @@ namespace Infrastructure.Migrations.DMSDb
                         .HasColumnType("longtext");
 
                     b.Property<int>("DocumentExtension")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GradustionProjectId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -116,39 +125,7 @@ namespace Infrastructure.Migrations.DMSDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GradustionProjectId");
-
                     b.ToTable("Documents");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GradustionProject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GradustionProjects");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Tag", b =>
@@ -217,13 +194,6 @@ namespace Infrastructure.Migrations.DMSDb
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.Document", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.GradustionProject", null)
-                        .WithMany("Documents")
-                        .HasForeignKey("GradustionProjectId");
-                });
-
             modelBuilder.Entity("Infrastructure.Entities.Tag", b =>
                 {
                     b.HasOne("Infrastructure.Entities.Category", null)
@@ -234,11 +204,6 @@ namespace Infrastructure.Migrations.DMSDb
             modelBuilder.Entity("Infrastructure.Entities.Category", b =>
                 {
                     b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GradustionProject", b =>
-                {
-                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }
