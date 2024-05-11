@@ -1,4 +1,5 @@
 ﻿
+
 namespace DocumentManagement.Controllers;
 
 [Route("api/[controller]")]
@@ -6,6 +7,7 @@ public class CategoryController(ICategoryRepo categoryRepo) : ControllerBase
 {
     // GET: api/<CategoryController>
     [HttpGet]
+    [AuthorizedAction(Permissions.RoleRead)]
     public async Task<IActionResult> Get()
     {
         var res = await categoryRepo.GetAsync();

@@ -6,6 +6,7 @@ public class RoleController(IRoleRepo roleRepo) : ControllerBase
 {
     // GET: api/<RoleController>
     [HttpGet]
+    [AuthorizedAction(Permissions.RoleRead)]
     public async Task<IActionResult> Get()
     {
         return Ok(await roleRepo.GetAllAsync());
