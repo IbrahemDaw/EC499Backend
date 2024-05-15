@@ -1,14 +1,17 @@
 ﻿namespace DocumentManagement.Data.Repo;
-public class DocumentRepo(DMSDbContext _db) : IDocumentRepo
+public class DocumentRepo(DMSDbContext _db ,IWebHostEnvironment _webHostEnvironment) : IDocumentRepo
 {
-    public async Task DeleteAsync(int Ids)
+    public async Task DeleteAsync(int[] Ids)
     {
-        var doc = await _db.Documents.Where(x => Ids == x.Id).SingleAsync();
-        if (File.Exists(doc.Path))
+        var docs = await _db.Documents.Where(x => Ids.Contains( x.Id)).ToListAsync();
+        docs.ForEach(doc =>
         {
-            File.Delete(doc.Path);
-        }
-        _db.Documents.Remove(doc);
+            if (File.Exists(doc.Path))
+            {
+                File.Delete(doc.Path);
+            }
+        });
+        _db.Documents.RemoveRange(docs);
         await _db.SaveChangesAsync();
     }
 
@@ -81,17 +84,31 @@ public class DocumentRepo(DMSDbContext _db) : IDocumentRepo
 
     public async Task UplaodAsync(DocumentInputModel model)
     {
+        var dirPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Files");
+
+        if (!Directory.Exists(dirPath))
+        {
+            Directory.CreateDirectory(dirPath);
+        }
+        var fileName = Guid.NewGuid();
+        var path = Path.Combine(dirPath, fileName +Path.GetExtension(model.File.FileName));
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            model.File.CopyTo(stream);
+        }
+
         var document = new Document
         {
             Title = model.Title,
             Description = model.Description,
             Categories = await _db.Categories.Where(c => model.Categories.Contains(c.Id)).ToListAsync(),
             Tags = await _db.Tags.Where(t => model.Tags.Contains(t.Id)).ToListAsync(),
-            Path = "testPath"
+            Path = path
         };
 
         await _db.Documents.AddAsync(document);
         await _db.SaveChangesAsync();
+
     }
     private string GetMimeType(string path)
     {

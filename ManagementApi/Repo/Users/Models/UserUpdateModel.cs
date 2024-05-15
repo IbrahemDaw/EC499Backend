@@ -7,6 +7,8 @@ public class UserUpdateModel
     public string? PhoneNumber { get; set; }
     public bool IsEnabled { get; set; }
     public List<int> Roles { get; set; } = [];
+    public List<int> Permissions { get; set; } = [];
+
 }
 public class UserUpdateModelValidator : AbstractValidator<UserUpdateModel>
 {

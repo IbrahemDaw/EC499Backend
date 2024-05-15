@@ -205,6 +205,18 @@
       "UpstreamHttpMethod": [ "Get"]
     },
     {
+      "DownstreamPathTemplate": "/api/Document/delete/{ids}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5265
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Document/delete/{ids}",
+      "UpstreamHttpMethod": [ "Delete"]
+    },
+    {
       "DownstreamPathTemplate": "/api/Tag/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

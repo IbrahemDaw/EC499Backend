@@ -114,7 +114,8 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
                 Email = x.Email,
                 IsEnabled = x.IsEnabled,
                 RequirePasswordChange = x.RequirePasswordChange,
-                Roles = x.Roles.Where(x=>!x.IsSelfRole).Select(x => x.Id).ToList()
+                Roles = x.Roles.Where(x=>!x.IsSelfRole).Select(x => x.Id).ToList(),
+                Permissions = x.Roles.Where(x=>x.IsSelfRole).SelectMany(x => x.Permissions).Select(x => x.Id).ToList()
             })
             .FirstOrDefaultAsync();
     }
@@ -168,7 +169,10 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
             return new ErrorResponse { ErrorCode = 5, Message = "user was not found" };
         var roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
             .ToListAsync();
-        roles.Add(user.Roles.Where(x=>x.IsSelfRole).FirstOrDefault() ?? new Role{Name = user.UserName, IsSelfRole = true});
+        var selfRole= user.Roles.Where(x=>x.IsSelfRole).FirstOrDefault() ?? new Role{Name = user.UserName, IsSelfRole = true};
+        selfRole.Permissions = await _db.Permissions.Where(x => model.Permissions.Contains(x.Id))
+            .ToListAsync();
+        roles.Add(selfRole);
         user.Roles = roles;
         user.FullName = string.IsNullOrWhiteSpace(model.FullName) ? user.FullName : model.FullName;
         user.PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber) ? user.PhoneNumber : model.PhoneNumber;

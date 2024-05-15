@@ -13,6 +13,8 @@ public class UserOutputModelSimple
 public class UserOutputModelDetailed : UserOutputModelSimple
 {
     public List<int> Roles { get; set; } = [];
+    public List<int> Permissions { get; set; } = [];
+
 
 }
 

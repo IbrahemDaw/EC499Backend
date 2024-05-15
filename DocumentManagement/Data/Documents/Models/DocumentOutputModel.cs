@@ -4,6 +4,8 @@ namespace DocumentManagement.Data.Models;
 public class DocumentOutputModelSimple
 {
     public int Id { get; set; }
+    public string FileName { get; set; } = null!;   
+    public string Path { get; set; } = null!;
     public string Title { get; set; } = null!;
     public string Description { get; set; } = null!;
 

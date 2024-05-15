@@ -27,11 +27,11 @@ public class DocumentController(IDocumentRepo _documentRepo) : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     [AuthorizedAction(Permissions.DocumentDelete)]
-    public async Task<IActionResult> DeleteDocument(int id)
+    public async Task<IActionResult> DeleteDocument(int[] ids)
     {
-        await _documentRepo.DeleteAsync(id);
+        await _documentRepo.DeleteAsync(ids);
         return NoContent();
     }
     [HttpGet("filter")]
