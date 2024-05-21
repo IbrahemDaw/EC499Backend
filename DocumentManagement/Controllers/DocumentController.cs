@@ -36,7 +36,6 @@ public class DocumentController(IDocumentRepo _documentRepo) : ControllerBase
     }
     [HttpGet("filter")]
     [AuthorizedAction(Permissions.DocumentRead)]
-
     public async Task<IActionResult> Filter(DocumentFilterModel filter)
     {
         var res = await _documentRepo.FilterAsync(filter);

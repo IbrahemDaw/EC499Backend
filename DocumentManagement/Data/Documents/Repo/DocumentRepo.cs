@@ -103,7 +103,8 @@ public class DocumentRepo(DMSDbContext _db ,IWebHostEnvironment _webHostEnvironm
             Description = model.Description,
             Categories = await _db.Categories.Where(c => model.Categories.Contains(c.Id)).ToListAsync(),
             Tags = await _db.Tags.Where(t => model.Tags.Contains(t.Id)).ToListAsync(),
-            Path = path
+            Path = path,
+            DocumentExtension = Path.GetExtension(model.File.FileName)
         };
 
         await _db.Documents.AddAsync(document);

@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.DMSDb
 {
     [DbContext(typeof(DMSDbContext))]
-    partial class DMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520111504_AddedTypeToDocument")]
+    partial class AddedTypeToDocument
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,11 +84,11 @@ namespace Infrastructure.Migrations.DMSDb
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 5, 20, 13, 30, 7, 264, DateTimeKind.Local).AddTicks(3412),
+                            CreatedAt = new DateTime(2024, 5, 20, 13, 15, 2, 157, DateTimeKind.Local).AddTicks(7503),
                             Description = "Graduation Projects",
                             IsDeleted = false,
                             Name = "Graduation Projects",
-                            UpdatedAt = new DateTime(2024, 5, 20, 13, 30, 7, 264, DateTimeKind.Local).AddTicks(3428)
+                            UpdatedAt = new DateTime(2024, 5, 20, 13, 15, 2, 157, DateTimeKind.Local).AddTicks(7515)
                         });
                 });
 
@@ -102,9 +105,8 @@ namespace Infrastructure.Migrations.DMSDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("DocumentExtension")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("DocumentExtension")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");

@@ -14,3 +14,4 @@ global using Auth.Models;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.AspNetCore.Mvc.Authorization;
+global using Shared.Enums;
