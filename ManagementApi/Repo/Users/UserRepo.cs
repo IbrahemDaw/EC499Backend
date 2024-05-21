@@ -137,13 +137,17 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
                 Message = "User name or Password incorrect"
             };
         }
-
+        
         var generatedToken = _jwtTokenUtility.GenerateAccessToken(User);
-        return new UserLoginOutputModel
+        var res = new UserLoginOutputModel
         {
             Token = generatedToken,
             User = User.MapTo<UserOutputModelSimple>()
         };
+        User.Roles.SelectMany(x=>x.Permissions).DistinctBy(x=>x.Feature).ToList().ForEach(x=>{
+            res.Pages.Add(x.Feature.ToString(),true);
+        });
+        return res;
     }
 
     public async Task<OneOf<UserOutputModelDetailed, ErrorResponse>> RemoveRolesAsync(UserRolesUpdateModel model)
@@ -165,7 +169,10 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
 
     public async Task<OneOf<UserOutputModelSimple, ErrorResponse>> UpdateAsync(UserUpdateModel model)
     {
-        var user = await _db.Users.Include(x => x.Roles).SingleOrDefaultAsync(x => !x.IsDeleted && x.Id == model.Id);
+        var user = await _db.Users
+            .Include(x => x.Roles)
+            .ThenInclude(x=>x.Permissions)
+            .SingleOrDefaultAsync(x => !x.IsDeleted && x.Id == model.Id);
 
         if (user == null)
             return new ErrorResponse { ErrorCode = 5, Message = "user was not found" };

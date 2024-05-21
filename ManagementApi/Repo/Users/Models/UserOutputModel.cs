@@ -22,5 +22,5 @@ public class UserLoginOutputModel
 {
     public string Token { get; set; } = null!;
     public UserOutputModelSimple User { get; set; } = null!;
-    public List<string> Pages {get;set;} =[];
+    public Dictionary<string,bool> Pages {get;set;} = new Dictionary<string,bool>();
 }
