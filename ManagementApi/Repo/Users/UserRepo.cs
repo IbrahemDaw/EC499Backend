@@ -1,8 +1,10 @@
 ﻿// Ignore Spelling: Repo
 
+using System.Security.Claims;
+
 namespace ManagementApi.Repo.Users;
 
-public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtility) : IUserRepo
+public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtility, IHttpContextAccessor httpContextAccessor) : IUserRepo
 {
     public async Task<OneOf<UserOutputModelSimple, ErrorResponse>> CreateAsync(UserInputModel model)
     {
@@ -13,7 +15,7 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
         user.PasswordHash = model.Password.HashPass();
         user.Roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
                     .ToListAsync();
-        
+
         user.Roles.Add(new Role { Name = user.UserName, IsSelfRole = true });
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
@@ -114,8 +116,8 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
                 Email = x.Email,
                 IsEnabled = x.IsEnabled,
                 RequirePasswordChange = x.RequirePasswordChange,
-                Roles = x.Roles.Where(x=>!x.IsSelfRole).Select(x => x.Id).ToList(),
-                Permissions = x.Roles.Where(x=>x.IsSelfRole).SelectMany(x => x.Permissions).Select(x => x.Id).ToList()
+                Roles = x.Roles.Where(x => !x.IsSelfRole).Select(x => x.Id).ToList(),
+                Permissions = x.Roles.Where(x => x.IsSelfRole).SelectMany(x => x.Permissions).Select(x => x.Id).ToList()
             })
             .FirstOrDefaultAsync();
     }
@@ -169,7 +171,7 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
             return new ErrorResponse { ErrorCode = 5, Message = "user was not found" };
         var roles = await _db.Roles.Where(x => model.Roles.Contains(x.Id))
             .ToListAsync();
-        var selfRole= user.Roles.Where(x=>x.IsSelfRole).FirstOrDefault() ?? new Role{Name = user.UserName, IsSelfRole = true};
+        var selfRole = user.Roles.Where(x => x.IsSelfRole).FirstOrDefault() ?? new Role { Name = user.UserName, IsSelfRole = true };
         selfRole.Permissions = await _db.Permissions.Where(x => model.Permissions.Contains(x.Id))
             .ToListAsync();
         roles.Add(selfRole);
@@ -180,5 +182,38 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
         await _db.SaveChangesAsync();
 
         return user.MapTo<UserOutputModelSimple>();
+    }
+
+    public async Task<UserOutputModelDetailed> GetUserProfileAsync()
+    {
+        var userId = int.Parse(
+                                httpContextAccessor
+                                    .HttpContext!
+                                    .User
+                                    .Claims
+                                    .First(x => x.Type == ClaimTypes.NameIdentifier)
+                                    .Value
+                            );
+        return await _db.Users.Where(x => x.Id == userId)
+                              .MapTo<UserOutputModelDetailed>()
+                              .FirstAsync();
+    }
+
+    public async Task<string?> CheangePasswordAsync(CheangePasswordInputModel model)
+    {
+        var userId = int.Parse(
+                                httpContextAccessor
+                                    .HttpContext!
+                                    .User
+                                    .Claims
+                                    .First(x => x.Type == ClaimTypes.NameIdentifier)
+                                    .Value
+                            );
+        var user = await _db.Users.Where(x => x.Id == userId).FirstAsync();
+        if (user.PasswordHash != model.OldPassword.HashPass())
+            return "incoruct old password";
+        user.PasswordHash = model.NewPassword.HashPass();
+        await _db.SaveChangesAsync();
+        return null;
     }
 }

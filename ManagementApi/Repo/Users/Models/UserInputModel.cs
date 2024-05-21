@@ -7,7 +7,7 @@ public class UserInputModel
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
-    public List<int>? Roles { get; set; } = [];
+    public List<int> Roles { get; set; } = [];
 
 }
 public class UserInputModelValidator : AbstractValidator<UserInputModel>
@@ -30,5 +30,8 @@ public class UserInputModelValidator : AbstractValidator<UserInputModel>
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
             .Matches("^[0-9]+$");
+
+        RuleFor(x=>x.Roles)
+            .Must(x=>true);
     }
 }

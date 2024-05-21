@@ -103,5 +103,17 @@ public class UserManagementController(IUserRepo userRepo, IRoleRepo roleRepo) : 
         await userRepo.EnableUsersAsync(Ids);
         return NoContent();
     }
-  
+    [HttpGet("Profile")]
+    public async Task<IActionResult> GetUserProfile()
+    {
+        var res = await userRepo.GetUserProfileAsync();
+        return Ok(res);
+    }
+    [HttpPost("CheangePassword")]
+    public async Task<IActionResult> CheangePassword(CheangePasswordInputModel model)
+    {   
+        string? res = await userRepo.CheangePasswordAsync(model);
+        return res == null ? NoContent() : BadRequest(res);
+    }
+
 }

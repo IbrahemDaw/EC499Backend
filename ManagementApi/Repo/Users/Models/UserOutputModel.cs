@@ -22,4 +22,5 @@ public class UserLoginOutputModel
 {
     public string Token { get; set; } = null!;
     public UserOutputModelSimple User { get; set; } = null!;
+    public List<string> Pages {get;set;} =[];
 }
