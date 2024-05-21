@@ -13,6 +13,30 @@
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/userManagement/profile", 
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7161
+        }
+      ],
+      "UpstreamPathTemplate": "/api/userManagement/profile",
+      "UpstreamHttpMethod": [ "Get","Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/userManagement/CheangePassword", 
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7161
+        }
+      ],
+      "UpstreamPathTemplate": "/api/userManagement/CheangePassword",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/user",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

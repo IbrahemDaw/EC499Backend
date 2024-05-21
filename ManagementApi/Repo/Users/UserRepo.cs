@@ -184,18 +184,18 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
         return user.MapTo<UserOutputModelSimple>();
     }
 
-    public async Task<UserOutputModelDetailed> GetUserProfileAsync()
+    public async Task<UserOutputModelSimple> GetUserProfileAsync()
     {
         var userId = int.Parse(
                                 httpContextAccessor
                                     .HttpContext!
                                     .User
                                     .Claims
-                                    .First(x => x.Type == ClaimTypes.NameIdentifier)
+                                    .First(x => x.Type == "id")
                                     .Value
                             );
         return await _db.Users.Where(x => x.Id == userId)
-                              .MapTo<UserOutputModelDetailed>()
+                              .MapTo<UserOutputModelSimple>()
                               .FirstAsync();
     }
 
@@ -206,14 +206,30 @@ public class UserRepo(UserManagementContext _db, JwtTokenUtility _jwtTokenUtilit
                                     .HttpContext!
                                     .User
                                     .Claims
-                                    .First(x => x.Type == ClaimTypes.NameIdentifier)
+                                    .First(x => x.Type == "id")
                                     .Value
                             );
         var user = await _db.Users.Where(x => x.Id == userId).FirstAsync();
-        if (user.PasswordHash != model.OldPassword.HashPass())
+        if (user.PasswordHash != model.CurrentPassword.HashPass())
             return "incoruct old password";
-        user.PasswordHash = model.NewPassword.HashPass();
+        user.PasswordHash = model.Password.HashPass();
         await _db.SaveChangesAsync();
         return null;
+    }
+
+    public async Task UpdateProfileAsync(ProfileUpdateModel model)
+    {
+        var userId = int.Parse(
+                                httpContextAccessor
+                                    .HttpContext!
+                                    .User
+                                    .Claims
+                                    .First(x => x.Type == "id")
+                                    .Value
+                            );
+        var user = await _db.Users.Where(x=>x.Id == userId).FirstAsync();
+        user.FullName = model.FullName;
+        user.Email = model.Email;
+        await _db.SaveChangesAsync();
     }
 }

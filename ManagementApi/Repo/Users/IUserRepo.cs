@@ -14,6 +14,7 @@ public interface IUserRepo
     Task<OneOf<UserOutputModelDetailed, ErrorResponse>> RemoveRolesAsync(UserRolesUpdateModel model);
     Task DisableUsersAsync(int[] ids);
     Task EnableUsersAsync(int[] ids);
-    Task<UserOutputModelDetailed> GetUserProfileAsync();
+    Task<UserOutputModelSimple> GetUserProfileAsync();
     Task<string?> CheangePasswordAsync(CheangePasswordInputModel model);
+    Task UpdateProfileAsync(ProfileUpdateModel model);
 }

@@ -2,13 +2,19 @@
 public class UserUpdateModel
 {
     public int Id { get; set; }
-    public string? FullName { get; set; }
-    public string? UserName { get; set; }
-    public string? PhoneNumber { get; set; }
+    public string FullName { get; set; } = null!;
+    public string UserName { get; set; }= null!;
+    public string PhoneNumber { get; set; }= null!;
+    public string Email { get; set; }= null!;
+
     public bool IsEnabled { get; set; }
     public List<int> Roles { get; set; } = [];
     public List<int> Permissions { get; set; } = [];
 
+}
+public class ProfileUpdateModel {
+    public string FullName {get;set;} = null!;
+    public string Email {get;set;} = null!;
 }
 public class UserUpdateModelValidator : AbstractValidator<UserUpdateModel>
 {
