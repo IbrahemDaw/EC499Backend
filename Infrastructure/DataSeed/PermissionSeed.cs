@@ -36,6 +36,7 @@ public static class PermissionSeed
             new Permission {Id = Permissions.GradustionProjectWrite, IsEnabled = true, Name = "Update ", Feature = Feature.GradustionProject},
             new Permission {Id = Permissions.GradustionProjectCreate, IsEnabled = true, Name = "Create ", Feature = Feature.GradustionProject},
             new Permission {Id = Permissions.GradustionProjectDelete, IsEnabled = true, Name = "Delete ", Feature = Feature.GradustionProject},
+            new Permission {Id = Permissions.GradustionProjectDownload, IsEnabled = true, Name = "Download ", Feature = Feature.GradustionProject},
         };
 
     }

@@ -7,4 +7,5 @@ public interface IDocumentRepo
     Task DeleteAsync(int[] Ids);
     Task UplaodAsync(DocumentInputModel model);
     Task<DocumentDownloadModel> DownloadAsync(int Id);
+    Task<PaginationModel<DocumentOutputModelSimple>> GraduationProjectFilterAsync(DocumentFilterModel filter);
 }

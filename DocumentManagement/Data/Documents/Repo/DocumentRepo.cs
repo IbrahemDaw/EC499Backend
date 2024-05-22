@@ -66,6 +66,27 @@ public class DocumentRepo(DMSDbContext _db ,IWebHostEnvironment _webHostEnvironm
             .SingleOrDefaultAsync();
     }
 
+    public async Task<PaginationModel<DocumentOutputModelSimple>> GraduationProjectFilterAsync(DocumentFilterModel filter)
+    {
+         var res = _db.Documents.Where(x => (string.IsNullOrEmpty(filter.Title) || x.Title.Contains(filter.Title))
+                                            && (string.IsNullOrEmpty(filter.Description) || x.Description.Contains(filter.Description)));
+        if (filter.Tags.Count > 0)
+        {
+            foreach (var tag in filter.Tags)
+            {
+                res = res.Where(x => x.Tags.Select(t => t.Id).Contains(tag));
+            }
+        }
+        if (filter.Categories.Count > 0)
+        {
+            foreach (var cat in filter.Categories)
+            {
+                res = res.Where(x => x.Tags.Select(t => t.Id).Contains(cat));
+            }
+        }
+        return await res.MapTo<DocumentOutputModelSimple>().ToPaginationModelAsync(filter);
+    }
+
     public async Task UpdateAsync(DocumentUpdateModel model)
     {
         var doc = await _db.Documents.Where(x => x.Id == model.Id)

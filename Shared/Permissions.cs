@@ -16,6 +16,7 @@ public static class Permissions
     public const int GradustionProjectWrite = 302;
     public const int GradustionProjectCreate = 303;
     public const int GradustionProjectDelete = 304;
+    public const int GradustionProjectDownload = 305;
 
     public const int UserRead = 701;
     public const int UserWrite = 702;

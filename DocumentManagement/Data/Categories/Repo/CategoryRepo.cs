@@ -52,6 +52,7 @@ public class CategoryRepo(DMSDbContext _db) : ICategoryRepo
     public async Task<List<CategoryOutputModelSimple>> GetAsync()
     {
         return await _db.Categories
+            .Where(x=>x.Id != 1)
             .MapTo<CategoryOutputModelSimple>()
             .ToListAsync();
     }
