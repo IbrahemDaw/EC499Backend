@@ -241,6 +241,66 @@
       "UpstreamHttpMethod": [ "Delete"]
     },
     {
+      "DownstreamPathTemplate": "/api/GraduationProject/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5265
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GraduationProject/{id}",
+      "UpstreamHttpMethod": [ "Get" ,  "Delete"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/GraduationProject",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5265
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GraduationProject",
+      "UpstreamHttpMethod": [ "Post","Put"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/GraduationProject/filter",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5265
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GraduationProject/filter",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/GraduationProject/download/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5265
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GraduationProject/download/{id}",
+      "UpstreamHttpMethod": [ "Get"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/GraduationProject/delete/{ids}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5265
+        }
+      ],
+      "UpstreamPathTemplate": "/api/GraduationProject/delete/{ids}",
+      "UpstreamHttpMethod": [ "Delete"]
+    },
+    {
       "DownstreamPathTemplate": "/api/Tag/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
